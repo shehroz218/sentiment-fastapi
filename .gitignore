@@ -1,4 +1,4 @@
 /fapi-env*
 *.csv
-/distilbert-base-uncased-finetuned-emotion
+/finetuned-emotion-model
 trainer.ipynb
