@@ -1,7 +1,9 @@
+import numpy
 import torch
-from transformers import AutoTokenizer ,AutoModelForSequenceClassification
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
-class trainer():
+
+class predicter():
     def __init__(self,
                 model_ckpt = "distilbert-base-uncased",
                 num_labels=2,
@@ -26,12 +28,17 @@ class trainer():
 
     def predict(self, text:str)->int:
 
-
-
         encode_text=self.tokenizer(text, padding=True, truncation=True, return_tensors="pt")
-        label_idx=torch.argmax(self.model(input_ids=encode_text['input_ids'], attention_mask=encode_text['attention_mask'])[0])
-        final_emotion=self.data_labels[label_idx]
+        output=self.model(input_ids=encode_text['input_ids'], attention_mask=encode_text['attention_mask'])
+        probabilities= torch.nn.functional.softmax(output.logits, dim=1).flatten().detach().numpy().tolist()
+        probabilities=dict(zip(self.data_labels, probabilities))
+        final_emotion=self.data_labels[torch.argmax(output[0])]
+        return final_emotion,probabilities
 
-        return final_emotion
 
+predicter = predicter()
 
+def load_class():
+    return predicter
+
+print(predicter.predict('abracadabra'))
