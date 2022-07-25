@@ -7,3 +7,8 @@ pydantic
 transformers
 torch
 sklearn
+numpy
+nltk 
+pandas
+regex
+datasets

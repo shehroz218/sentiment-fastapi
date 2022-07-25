@@ -2,3 +2,4 @@
 *.csv
 /finetuned-emotion-model
 trainer.ipynb
+*_pycache_

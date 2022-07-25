@@ -1,12 +1,17 @@
-import pandas as pd
 import datasets
 import numpy as np
+import pandas as pd
 import regex as re
 import torch
 from nltk.stem import PorterStemmer
-from transformers import AutoTokenizer ,AutoModelForSequenceClassification, Trainer, TrainingArguments
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.preprocessing import LabelEncoder
+from transformers import (
+    AutoModelForSequenceClassification,
+    AutoTokenizer,
+    Trainer,
+    TrainingArguments,
+)
 
 
 class trainer():
@@ -16,7 +21,7 @@ class trainer():
                 batch_size = 64,
                 num_epochs=2,
                 # data_path='D:\Codes\sentiment-fastapi/airline_sentiment_analysis.csv',
-                save_path="distilbert-base-uncased-finetuned-emotion"
+                save_path="finetuned-emotion-model"
                 ):
         
         self.model_ckpt=model_ckpt
@@ -110,7 +115,7 @@ class trainer():
 
 
         logging_steps = len(sentiment_encoded["train"]) // self.batch_size
-        model_name = f"{self.model_ckpt}-finetuned-emotion"
+        model_name = f"finetuned-emotion-model"
         training_args = TrainingArguments(output_dir=model_name,
                                             num_train_epochs=self.num_epochs,
                                             learning_rate=2e-5,
@@ -120,7 +125,7 @@ class trainer():
                                             evaluation_strategy="epoch",
                                             disable_tqdm=False,
                                             logging_steps=logging_steps,
-                                            push_to_hub=False, 
+                                            push_to_hub=True, 
                                             log_level="error")
 
         trainer = Trainer(model=model,
