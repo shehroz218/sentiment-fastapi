@@ -18,7 +18,10 @@ class predicter():
         self.load_path=load_path
         self.model=self.load_model()
     
-    def load_model(self): 
+    def load_model(self):
+        """
+        loads model from either local repository or from hugging face pipeline
+        """ 
         #script for when model is loaded from storage 
         # model = (AutoModelForSequenceClassification
         # .from_pretrained(self.model_ckpt, num_labels=2))
@@ -31,6 +34,14 @@ class predicter():
         return model
 
     def predict(self, text:str)->int:
+        """
+        creates prediction from either transformer pipeline or locally loaded model
+
+        Attributes:
+        ----------
+        text: str
+        input text/tweet for sentiment classification
+        """
         #script for when model is loaded from storage 
         # encode_text=self.tokenizer(text, padding=True, truncation=True, return_tensors="pt")
         # output=self.model(input_ids=encode_text['input_ids'], attention_mask=encode_text['attention_mask'])

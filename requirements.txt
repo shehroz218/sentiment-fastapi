@@ -1,14 +1,6 @@
-# black
-# isort
-# flake8
 fastapi
 uvicorn
 pydantic
 transformers
-# torch
-# sklearn
 numpy
-# nltk 
-# pandas
-# regex
-# datasets
+torch

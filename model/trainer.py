@@ -36,12 +36,30 @@ class trainer():
 
 
     def load_data(self, path):
+        """
+        loads csv data and makes sure column names are as needed
+
+        Attributes:
+        ----------
+        path: str
+        path to the dataset
+        
+        """
         data=(pd.read_csv(path, index_col=0, header=[0])).reset_index(drop=True)
         data.columns=['label','text']
         data=data[['text','label']]
         return data
 
     def preprocess_text(self,text):
+        """
+        cleans the input text by removing unnecessary characters and stems each word
+        Attributes:
+        -----------
+        text: str
+        input text that contains the tweet
+        
+        
+        """
         stemmer = PorterStemmer()
         entity_prefixes = ['@']
         words = []
@@ -65,10 +83,37 @@ class trainer():
 
 
     def split_data(self,data):
+        """
+        splits data into train validate and test
+        Attributes:
+        ----------
+        data: pandas dataframe obj
+        entire dataset of tweets and their labels
+
+        Returns:
+        -------
+        train: numpy array
+        test: numpy array
+        validate: numpy array
+        """
         train, validate, test = np.split(data.sample(frac=1), [int(.6*len(data)), int(.8*len(data))])
         return train, validate, test
 
     def create_dateset(self,train,validate,test):
+        """
+        converts numpy arrays into DatasetDict fornmat
+
+        Attributes:
+        ----------
+        train: numpy array
+        test: numpy array
+        validate: numpy array
+
+        Returns:
+        -------
+        my_dataset_dict: DatasetDict
+        contains train test and validation set in a DataSetDict format
+        """
         train_dataset = datasets.Dataset.from_dict(train)
         test_dataset = datasets.Dataset.from_dict(test)
         validation_dataset=datasets.Dataset.from_dict(validate)
@@ -76,9 +121,34 @@ class trainer():
         return my_dataset_dict
 
     def tokenize(self,batch):
+        """
+        Batch tokenizes the entire dataset
+        Attributes:
+        ----------
+        batch: List
+        the list containing all the tweets
+        Returns:
+        List: tokenized list 
+        """
         return self.tokenizer(batch["text"], padding=True, truncation=True)
 
     def compute_metrics(self,pred):
+        """"
+        function for computing f1 and accuracy scores
+
+        Attributes:
+        ----------
+        pred: List
+        contains the prediciton after each batch
+
+        Returns:
+        -------
+        Dict:
+        containing accuracy and f1 scores
+        
+        """
+
+
         labels = pred.label_ids
         preds = pred.predictions.argmax(-1)
         f1 = f1_score(labels, preds, average="weighted")
@@ -88,7 +158,19 @@ class trainer():
     def training(self,
                 load_path='D:\Codes\sentiment-fastapi/airline_sentiment_analysis.csv'
                 ):
-
+        """
+        main training function. trains, saves and returns the model
+        Attributes:
+        ----------
+        path: str
+        path to the dataset to be loaded
+        
+        Returns:
+        -------
+        Model: Pytorch model
+        Fine tuned pytorch model
+        
+        """
 
         data= self.load_data(path=load_path)
         le = LabelEncoder()

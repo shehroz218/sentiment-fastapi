@@ -1,7 +1,0 @@
-versdion: '3.10'
-services:
-  core_api:
-    build: .
-    container_name: "core-api-container"
-    volumes:
-      - ./app/:/app
