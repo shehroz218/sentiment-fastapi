@@ -1,14 +1,14 @@
-black
-isort
-flake8
+# black
+# isort
+# flake8
 fastapi
 uvicorn
 pydantic
 transformers
-torch
-sklearn
+# torch
+# sklearn
 numpy
-nltk 
-pandas
-regex
-datasets
+# nltk 
+# pandas
+# regex
+# datasets

@@ -1,6 +1,6 @@
 import numpy as np
-import torch
-from transformers import AutoModelForSequenceClassification, AutoTokenizer, pipeline
+# import torch
+from transformers import AutoTokenizer, pipeline
 
 
 class predicter():
