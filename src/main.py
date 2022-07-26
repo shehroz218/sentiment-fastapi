@@ -17,7 +17,7 @@ class outputResponse(BaseModel):
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"message": "Welcome to Your Sentiment Classification FastAPI"}
 
 @app.post("/predict", response_model=outputResponse)
 def predict(request: input_text, model: predicter = Depends(load_class)):
@@ -25,5 +25,3 @@ def predict(request: input_text, model: predicter = Depends(load_class)):
     return outputResponse(
         sentiment=sentiment, probabilities=probabbility,
     )
-
-
