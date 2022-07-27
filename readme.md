@@ -5,7 +5,7 @@
  
 2. Both the trainer class and the prediction class have two capabilities either to save/load the model from local storage or to upload/use the transformers pipeline api to perform.
 
-3. The pipeline is available in the transformers library and can is available  as "shozi218/finetuned-emotion-model"
+3. The pipeline is available in the transformers library and can be used by calling "shozi218/finetuned-emotion-model"
 
 
 4. The predicter class was used to create Fast-API class and can be locally deployed using uvicorn
